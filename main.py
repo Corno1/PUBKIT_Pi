@@ -1,9 +1,8 @@
 import sense_hat, random, time
 from sense_hat import SenseHat
-sense = SenseHat()
-from datetime import datetime
 import mysql.connector
 
+sense = SenseHat()
 db = mysql.connector.connect(
   host="database-1.c2ggfvafdmjq.us-east-1.rds.amazonaws.com",
   user="admin",
@@ -13,10 +12,12 @@ db = mysql.connector.connect(
 cursor = db.cursor()
 
 while True:
-    temp = sense.get_temperature()
-    timestamp = datetime.now()
-    timestamp = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-    statement = "INSERT INTO Data (Timestamp, Temp) VALUES ({}, {})".format(timestamp, temp)
+    temp = round(sense.get_temperature(), 1)
+    timestamp = round(time.time() *1000)
+    statement = "INSERT INTO sensordata (Timestamp, Temp) VALUES ({}, {})".format(timestamp, temp)
     cursor.execute(statement)
     print(temp)
+    print(statement)
+    print(db)
+    db.commit()
     time.sleep(1)
