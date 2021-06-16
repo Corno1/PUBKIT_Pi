@@ -15,6 +15,7 @@ cursor = db.cursor()
 while True:
     temp = sense.get_temperature()
     timestamp = datetime.now()
+    timestamp = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
     statement = "INSERT INTO Data (Timestamp, Temp) VALUES ({}, {})".format(timestamp, temp)
     cursor.execute(statement)
     print(temp)
