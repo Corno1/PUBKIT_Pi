@@ -1,4 +1,4 @@
-import sense_hat, random, time
+import sense_hat, time
 from sense_hat import SenseHat
 import mysql.connector
 
@@ -16,8 +16,5 @@ while True:
     timestamp = round(time.time() *1000)
     statement = "INSERT INTO sensordata (Timestamp, Temp) VALUES ({}, {})".format(timestamp, temp)
     cursor.execute(statement)
-    print(temp)
-    print(statement)
-    print(db)
     db.commit()
     time.sleep(1)
