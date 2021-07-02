@@ -1,6 +1,12 @@
 import sense_hat, time
 from sense_hat import SenseHat
 import mysql.connector
+from gps3 import gps3
+
+gps_socket =gps3.GPSDSocket()
+data_stream = gps3.DataStream()
+gps_socket.connect()
+gps_socket.watch()
 
 sense = SenseHat()
 db = mysql.connector.connect(
@@ -16,5 +22,8 @@ while True:
     timestamp = round(time.time() *1000)
     statement = "INSERT INTO sensordata (Timestamp, Temp) VALUES ({}, {})".format(timestamp, temp)
     cursor.execute(statement)
+    print("Altitude =",data_stream.TPV["alt"])
+    print("Longitude =",data_stream.TPV["lon"])
+    print("Latitude =",data_stream.TPV["lat"])
     db.commit()
     time.sleep(1)
