@@ -17,13 +17,14 @@ db = mysql.connector.connect(
 )
 cursor = db.cursor()
 
-
 for new_data in gps_socket:
     if new_data:
         data_stream.unpack(new_data)
-        temp = round(sense.get_temperature(), 1)
-        timestamp = round(time.time() *1000)
-        statement = "INSERT INTO sensordata (Timestamp, Temp, Lat, Long) VALUES ({}, {}, {}, {})".format(timestamp, temp, data_stream.TPV['lat'], data_stream.TPV['lon'])
-        cursor.execute(statement)
-        db.commit()
-        time.sleep(1)
+        if data_stream.TPV["lon"] != "n/a":
+            temp = round(sense.get_temperature(), 1)
+            timestamp = round(time.time() *1000)
+            statement = "INSERT INTO sensordata (Timestamp, Temp, Lat, Long) VALUES ({}, {}, {}, {})".format(timestamp, temp, data_stream.TPV['lat'], data_stream.TPV['lon'])
+            cursor.execute(statement)
+            db.commit()
+            time.sleep(1)
+            
