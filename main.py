@@ -23,8 +23,9 @@ for new_data in gps_socket:
         if data_stream.TPV["lon"] != "n/a":
             temp = round(sense.get_temperature(), 1)
             timestamp = round(time.time() *1000)
-            statement = "INSERT INTO sensordata (Timestamp, Temp, Lat, Long) VALUES ({}, {}, {}, {})".format(timestamp, temp, data_stream.TPV['lat'], data_stream.TPV['lon'])
+            statement = "INSERT INTO sensordata (Timestamp, Temp, Lat, Lon) VALUES ({}, {}, {}, {})".format(timestamp, temp, data_stream.TPV['lat'], data_stream.TPV['lon'])
             cursor.execute(statement)
             db.commit()
             time.sleep(1)
             
+    
